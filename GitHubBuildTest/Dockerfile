@@ -8,5 +8,7 @@ EXPOSE 80
 COPY ../publish .
 
 RUN ls -lh
+RUN echo '----------------------------------------'
+RUN ls .. -lh
 
 ENTRYPOINT ["dotnet", "GitHubBuildTest.dll"]
