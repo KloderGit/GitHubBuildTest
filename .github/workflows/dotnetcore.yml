@@ -32,10 +32,12 @@ jobs:
         ls ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/
        
     - name: Docker Image
-      run: docker image build -t docker.pkg.github.com/klodergit/githubbuildtest/githubbuildtest:1.1 GitHubBuildTest/
+      run: docker image build -t githubbuildtest:1 GitHubBuildTest/
       
     - name: Docker Login
       run: docker login -u KloderGit -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
       
     - name: Publish to Registry
-      run: docker push docker.pkg.github.com/klodergit/githubbuildtest/githubbuildtest:1.1
+      run: |
+        docker tag githubbuildtest:1 docker.pkg.github.com/KloderGit/GitHubBuildTest/githubbuildtest:1
+        docker push docker.pkg.github.com/KloderGit/GitHubBuildTest/githubbuildtest:1
