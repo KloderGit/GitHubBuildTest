@@ -20,13 +20,6 @@ jobs:
         source-url: https://nuget.pkg.github.com/KloderGit/index.json
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-    - name: Setup Nuget.exe
-      uses: nuget/setup-nuget@v1
-      
-    - name: Add Source
-      run: |
-          nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/KloderGit/index.json" -UserName KloderGit -Password ${{ secrets.GITHUB_TOKEN }}
-          nuget restore
     - name: Build with dotnet
       run: dotnet publish --configuration Release -o publish
        
