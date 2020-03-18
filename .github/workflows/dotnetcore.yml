@@ -27,8 +27,6 @@ jobs:
       run: |
         ls
         echo '------------------------------'
-        ls publish
-        echo '------------------------------'
         ls GitHubBuildTest
         echo '------------------------------'
         ls /GitHubBuildTest/publish
