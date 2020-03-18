@@ -36,3 +36,10 @@ jobs:
       
     - name: Docker Login
       run: docker login -u KloderGit -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
+      
+    - name: Publish to Registry
+      uses: HurricanKai/Publish-Docker-Github-Action@master
+      with:
+        name: Fitness-Pro/GitHubBuildTest
+        username: KloderGit
+        password: ${{secrets.GITHUB_TOKEN}}
