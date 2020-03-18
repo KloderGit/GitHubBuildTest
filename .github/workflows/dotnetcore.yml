@@ -39,5 +39,5 @@ jobs:
       
     - name: Publish to Registry
       run: |
-        docker tag githubbuildtest:1 docker.pkg.github.com/KloderGit/GitHubBuildTest/githubbuildtest:1
-        docker push docker.pkg.github.com/KloderGit/GitHubBuildTest/githubbuildtest:1
+        docker tag githubbuildtest:1 docker.pkg.github.com/klodergit/githubbuildtest/githubbuildtest:1
+        docker push docker.pkg.github.com/klodergit/githubbuildtest/githubbuildtest:1
