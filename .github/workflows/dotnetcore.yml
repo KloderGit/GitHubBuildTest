@@ -21,7 +21,7 @@ jobs:
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
     - name: Build with dotnet
-      run: dotnet publish --configuration Release -o publish
+      run: dotnet publish --configuration Release -o ./GitHubBuildTest/publish/
       
     - name: Ls
       run: |
@@ -30,6 +30,8 @@ jobs:
         ls publish
         echo '------------------------------'
         ls GitHubBuildTest
+        echo '------------------------------'
+        ls /GitHubBuildTest/publish
        
     - name: Docker Image
       run: docker image build -t githubbuildtest:latest GitHubBuildTest/
