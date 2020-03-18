@@ -33,3 +33,6 @@ jobs:
        
     - name: Docker Image
       run: docker image build -t githubbuildtest:latest GitHubBuildTest/
+      
+    - name: Docker Login
+      run: docker login -u KloderGit -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
