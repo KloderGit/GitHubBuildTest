@@ -5,7 +5,7 @@ EXPOSE 80
 
 #COPY ["./bin/Release/netcoreapp3.1/publish", "/app"]
 
-COPY ../publish .
+COPY ./publish/ .
 
 RUN ls -lh
 RUN echo '----------------------------------------'
