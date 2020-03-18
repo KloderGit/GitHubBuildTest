@@ -26,6 +26,7 @@ jobs:
     - name: Ls
       run: |
         ls
+        echo '------------------------------'
         ls GitHubBuildTest
        
     - name: Docker Image
