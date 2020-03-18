@@ -38,8 +38,6 @@ jobs:
       run: docker login -u KloderGit -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
       
     - name: Publish to Registry
-      run: |
-        docker tag githubbuildtest:1 fitness-pro/githubbuildtest:1
-        docker push docker.pkg.github.com/klodergit/fitness-pro/githubbuildtest:1        
-#        docker tag githubbuildtest:1 docker.pkg.github.com/klodergit/githubbuildtest/githubbuildtest:1
-#        docker push docker.pkg.github.com/klodergit/githubbuildtest/githubbuildtest:1
+      run: |      
+        docker tag githubbuildtest:1 docker.pkg.github.com/klodergit/githubbuildtest/githubbuildtest:1
+        docker push docker.pkg.github.com/klodergit/githubbuildtest/githubbuildtest:1
