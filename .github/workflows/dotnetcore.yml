@@ -14,8 +14,26 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
-    - uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.1.100' # SDK Version to use.
-    - name: Build
-      run: dotnet build
+        dotnet-version: 3.1.101
+    - name: Setup Nuget.exe
+      uses: nuget/setup-nuget@v1
+      
+    - name: Add Source
+      run: |
+          nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/KloderGit/index.json" -UserName KloderGit -Password ${{ secrets.GITHUB_TOKEN }}
+          nuget restore
+    - name: Build with dotnet
+      run: dotnet publish --configuration Release -o publish
+       
+    - name: Cd
+      run: cd GitHubBuildTest/bin/Release/netcoreapp3.1
+        
+    - name: Docker Image
+      run: docker image build -t githubbuildtest:latest GitHubBuildTest/
+      
+    - name: Docker Push
+      run: |
+        docker login -u KloderGit -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
+        docker push docker.pkg.github.com/KloderGit/GitHubBuildTest/githubbuildtest:latest
