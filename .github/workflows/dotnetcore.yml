@@ -22,6 +22,11 @@ jobs:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
     - name: Build with dotnet
       run: dotnet publish --configuration Release -o publish
+      
+    - name: Ls
+      run: |
+        ls
+        ls GitHubBuildTest
        
     - name: Docker Image
       run: docker image build -t githubbuildtest:latest GitHubBuildTest/
