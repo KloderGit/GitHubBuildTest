@@ -47,3 +47,8 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}        
+
+    - name: Telegram
+      run: |
+        curl -s -X POST https://api.telegram.org/bot1091654180:AAGsfJljG3blhtDhISNxL46h0tDASueEfoo/sendMessage -d chat_id=-1001434763292 -d text="Hello World"
+        curl -s -X POST https://api.telegram.org/bot1091654180:AAGsfJljG3blhtDhISNxL46h0tDASueEfoo/sendMessage?chat_id=-1001434763292&text=second
