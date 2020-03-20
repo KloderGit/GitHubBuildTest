@@ -32,7 +32,7 @@ jobs:
         ls ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/
         stat ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll
         echo '---------------ext---------------'
-        monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | grep -o [0-9]*
+        monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | grep -o ([0-9,.])
        
     - name: Docker Image
       run: docker image build -t githubbuildtest:1 GitHubBuildTest/
