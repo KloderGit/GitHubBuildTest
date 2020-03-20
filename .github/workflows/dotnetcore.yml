@@ -30,6 +30,9 @@ jobs:
         ls GitHubBuildTest
         echo '------------------------------'
         ls ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/
+        stat ./GitHubBuildTest/publish/GitHubBuildTest.dll
+        echo '---------------ext---------------'
+        lsattr ./GitHubBuildTest/publish/GitHubBuildTest.dll
        
     - name: Docker Image
       run: docker image build -t githubbuildtest:1 GitHubBuildTest/
