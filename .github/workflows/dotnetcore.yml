@@ -3,8 +3,6 @@ name: .NET Core
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 jobs:
   build:
@@ -18,33 +16,17 @@ jobs:
       run: dotnet publish --configuration Release     
     - name: Ls
       run: |
-        ls
-        echo '------------------------------'
-        ls GitHubBuildTest
-        echo '------------------------------'
         ls ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/
+        echo '------------------------------'        
         stat ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll
         echo '---------------ext---------------'
         monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | grep -o [0-9]+(\.[0-9]+)*
-       
-    - name: Docker Image
-      run: docker image build -t githubbuildtest:1 GitHubBuildTest/
-      
-    - name: Docker Login
-      run: docker login -u KloderGit -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
-      
-    - name: Publish to Registry
-      run: |      
-        docker tag githubbuildtest:1 docker.pkg.github.com/klodergit/githubbuildtest/githubbuildtest:1
-        docker push docker.pkg.github.com/klodergit/githubbuildtest/githubbuildtest:1
         
     - name: Send default message to Telegram
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}        
-
-    - name: Telegram
-      run: |
-        curl -s -X POST https://api.telegram.org/bot1091654180:AAGsfJljG3blhtDhISNxL46h0tDASueEfoo/sendMessage -d chat_id=-1001434763292 -d text="Hello World"
-        curl -s -X POST https://api.telegram.org/bot1091654180:AAGsfJljG3blhtDhISNxL46h0tDASueEfoo/sendMessage?chat_id=-1001434763292&text=second
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          The ${{ github.event_name }} event triggered final step.
+          echo This event is a pull request that had an assignee removed.
