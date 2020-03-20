@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setup Nuget.exe
-      uses: warrenbuckley/Setup-Nuget@v1      
+      uses: NuGet/setup-nuget@v1.0.2   
     - name: Add Source
       run: nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/KloderGit/index.json" -UserName KloderGit -Password ${{ secrets.GITHUB_TOKEN }}
       
