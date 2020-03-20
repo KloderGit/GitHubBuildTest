@@ -32,7 +32,7 @@ jobs:
         ls ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/
         stat ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll
         echo '---------------ext---------------'
-        echo ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll --version
+        ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll --version
        
     - name: Docker Image
       run: docker image build -t githubbuildtest:1 GitHubBuildTest/
