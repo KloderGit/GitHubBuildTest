@@ -17,7 +17,7 @@ jobs:
       run: nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/KloderGit/index.json" -UserName KloderGit -Password ${{ secrets.GITHUB_TOKEN }}
       
     - name: Куыещку
-      run: dotnet restore
+      run: dotnet restore -s GitHub
       
     - name: Build with dotnet
 #      run: dotnet publish --configuration Release -o ./GitHubBuildTest/publish/
