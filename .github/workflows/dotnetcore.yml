@@ -16,19 +16,21 @@ jobs:
     - name: Add Source
       run: nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/KloderGit/index.json" -UserName KloderGit -Password ${{ secrets.GITHUB_TOKEN }}
       
-    - name: Куыещку
-      run: dotnet restore -s GitHub
+#    - name: Куыещку
+#      run: dotnet restore -s GitHub
       
     - name: Build with dotnet
 #      run: dotnet publish --configuration Release -o ./GitHubBuildTest/publish/
-      run: dotnet build --configuration Release     
+#      run: dotnet build --configuration Release     
     - name: Ls
       run: |
         ls ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/
         echo '------------------------------'        
         stat ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll
         echo '---------------ext---------------'
-        monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | grep -o [0-9]+(\.[0-9]+)*
+        monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll
+        find . -name MyAssembly.dll -exec monodis --assembly {} ';' | grep Version        
+#        monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | grep -o [0-9]+(\.[0-9]+)*
         
     - name: Message to Telegram
       run: curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage -d chat_id=${{ secrets.TELEGRAM_TO }} -d text="Тестовая сборка была успешно собрана. Создан образ - и загружен в GitHub Packages" 
