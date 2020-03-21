@@ -34,7 +34,7 @@ jobs:
         echo '---------------ext---------------'
         monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2
         Test1 = monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2
-        echo $Test1       
+        echo ${{Test1}}       
        
     - name: Docker Image
       run: docker image build -t githubbuildtest:1 GitHubBuildTest/
