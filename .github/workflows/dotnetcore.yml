@@ -25,12 +25,13 @@ jobs:
       run: |
         export APP_VERSION=monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2
         echo "::set-env name=AppVersion::${APP_VERSION}"
+        monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2 > ${TAG1}
         
     - name: set environment variables
       uses: allenevans/set-env@v1.0.0
       with:
         MY_VAR: 'my value'
-        MY_VERSION: monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2
+        MY_VERSION: ${TAG1}
 
     - name: Printenv
       run: |
