@@ -27,12 +27,12 @@ jobs:
 
     - name: Define Variables
       run: |
-        echo "::set-env name=AppVersion::$(monodis --assembly ./${{ env.RepositoryName }}/publish/${{ env.RepositoryName }}.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)"
         export REPO_NAME="$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")"
         echo "::set-env name=RepositoryName::$REPO_NAME"
         echo "::set-env name=RepositoryNameLowcase::$(echo $REPO_NAME | tr '[:upper:]' '[:lower:]')"
         export GITHUB_ACTOR_LOWERCASE="$(echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]')"
         echo "::set-env name=GitHubActorLowercase::$GITHUB_ACTOR_LOWERCASE"
+        echo "::set-env name=AppVersion::$(monodis --assembly ./${{ env.RepositoryName }}/publish/${{ env.RepositoryName }}.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)"
 
     - name: Ls
       run: |
