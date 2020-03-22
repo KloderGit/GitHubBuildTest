@@ -33,7 +33,7 @@ jobs:
 
     - name: Printenv
       run: |
-        echo "MY_ENV_VAR=${MY_ENV_VAR}"
+        echo "MY_VAR=${MY_VAR}"
         printenv
         
     - name: Build with dotnet
@@ -48,8 +48,10 @@ jobs:
         ls ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/
         stat ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll
         echo '---------------ext---------------'
-        echo ${{ env.APP_VERSION }}
-        echo ${{ MY_VAR }}
+        echo ${{ env.AppVersion }}
+        echo ${{ env.MY_VAR }}
+        echo $APP_VERSION
+        echo ${APP_VERSION}
 #        monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2
         
     - name: Docker Image
