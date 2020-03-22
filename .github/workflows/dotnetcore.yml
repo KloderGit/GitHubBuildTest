@@ -28,23 +28,11 @@ jobs:
 
     - name: Define Version
       run: |
-        export APK_NAME="release_$(monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)"
-        echo "::set-env name=AppVersion::${APK_NAME}"
-#        export APP_VERSION=monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2
-        
-        
-    - name: set environment variables
-      uses: allenevans/set-env@v1.0.0
-      with:
-        MY_VAR: 'my value'
-        MY_VERSION: ${TAG1}
+        export APP_VERSION="$(monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)"
+        echo "::set-env name=AppVersion::${APP_VERSION}"
 
     - name: Printenv
-      run: |
-        echo "MY_VAR=${MY_VAR}"
-        echo "MY_VERSION=${MY_VERSION}"
-        printenv
-
+      run: printenv | grep AppVersion
       
     - name: Ls
       run: |
