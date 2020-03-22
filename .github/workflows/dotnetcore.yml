@@ -23,8 +23,8 @@ jobs:
 
     - name: Define Version
       run: |
-        export A_VERSION: $(monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)
-        echo "::set-env name=AppVersion::${A_VERSION}"
+        export APK_NAME="release_$(date +'%Y-%m-%d')"
+        echo "::set-env name=AppVersion::${APK_NAME}"
 #        export APP_VERSION=monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2
         
         
