@@ -46,5 +46,5 @@ jobs:
       
     - name: Publish to Registry
       run: |
-        docker tag $(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]'):${{ env.AppVersion }} docker.pkg.github.com/$(echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]')/$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]')/${{ env.RepositoryName }}:${{ env.AppVersion }}
+        docker tag $(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]'):${{ env.AppVersion }} docker.pkg.github.com/$(echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]')/$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]')/$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]'):${{ env.AppVersion }}
         docker push docker.pkg.github.com/$(echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]')/$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]')/$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]'):${{ env.AppVersion }}
