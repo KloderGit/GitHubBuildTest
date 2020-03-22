@@ -37,13 +37,9 @@ jobs:
       run: |
         ls
         echo '------------------------------'
-        ls GitHubBuildTest
-        echo '------------------------------'
-        ls ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/
-        stat ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll
-        echo '---------------ext---------------'
         echo ${{ env.AppVersion }}
         echo "$GITHUB_ACTOR"
         echo ${{ env.RepositoryName }}
         echo $($GITHUB_ACTOR | tr "[:lower:]" "[:upper:]")
+        echo "${$GITHUB_ACTOR,,}"
 
