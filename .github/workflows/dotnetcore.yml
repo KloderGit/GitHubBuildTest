@@ -23,7 +23,9 @@ jobs:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         
     - name: Define RepositoryName
-      run: echo "::set-env name=RepositoryName::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")"
+      run: |
+        echo "::set-env name=RepositoryName::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")"
+        echo "::set-env name=RepositoryNameLowcase::$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]')"
       
     - name: Build with dotnet
       run: dotnet publish --configuration Release -o ./${{ env.RepositoryName }}/publish
@@ -35,6 +37,7 @@ jobs:
       run: |
         echo '------------------------------'
         echo ${{ env.RepositoryName }}
+        echo ${{ env.RepositoryNameLowcase }}
         echo ${{ env.AppVersion }}
         echo "$GITHUB_ACTOR"
        
