@@ -20,14 +20,9 @@ jobs:
         source-url: https://nuget.pkg.github.com/KloderGit/index.json
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
-    - name: Define variables
-      run: echo "Tags are > ${TAG1}"
-      env:
-        TAG1: "TEst Value"
         
-    - name: Define variables2
-      run: echo "::set-env name=NEW_APK_NAME::APK_NAME"
+    - name: Define Version
+      run: echo "::set-env name=AppVersion::monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2"
         
     - name: Build with dotnet
 #      run: dotnet publish --configuration Release -o ./GitHubBuildTest/publish/
@@ -41,9 +36,8 @@ jobs:
         ls ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/
         stat ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll
         echo '---------------ext---------------'
-        monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2
-        echo ${{ env.NEW_APK_NAME }}
-        echo ${TAG1}
+        echo ${{ env.AppVersion }}        
+#        monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2
         
     - name: Docker Image
       run: docker image build -t githubbuildtest:1 GitHubBuildTest/
