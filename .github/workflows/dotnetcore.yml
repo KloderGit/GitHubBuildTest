@@ -24,7 +24,7 @@ jobs:
     - name: Define Version
       run: |
         export APP_VERSION=monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2
-        echo "::set-env name=AppVersion::$APP_VERSION"
+        echo "::set-env name=AppVersion::${APP_VERSION}"
         
     - name: set environment variables
       uses: allenevans/set-env@v1.0.0
