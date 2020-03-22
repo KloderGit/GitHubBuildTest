@@ -54,6 +54,6 @@ jobs:
     - name: Publish to Registry
       run: |
         docker tag ${{ env.RepositoryNameLowcase }} docker.pkg.github.com/${{ env.GitHubActorLowercase }}/${{ env.RepositoryNameLowcase }}/${{ env.RepositoryNameLowcase }}:dev
+        docker push docker.pkg.github.com/${{ env.GitHubActorLowercase }}/${{ env.RepositoryNameLowcase }}/${{ env.RepositoryNameLowcase }}:dev        
         docker tag ${{ env.RepositoryNameLowcase }} docker.pkg.github.com/${{ env.GitHubActorLowercase }}/${{ env.RepositoryNameLowcase }}/${{ env.RepositoryNameLowcase }}:${{ env.AppVersion }}
         docker push docker.pkg.github.com/${{ env.GitHubActorLowercase }}/${{ env.RepositoryNameLowcase }}/${{ env.RepositoryNameLowcase }}:${{ env.AppVersion }}
-        docker push docker.pkg.github.com/${{ env.GitHubActorLowercase }}/${{ env.RepositoryNameLowcase }}/${{ env.RepositoryNameLowcase }}::dev
