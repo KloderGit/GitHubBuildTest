@@ -21,7 +21,10 @@ jobs:
         source-url: https://nuget.pkg.github.com/KloderGit/index.json
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        
+      
+    - name: Build with dotnet
+      run: dotnet publish --configuration Release -o ./${{ env.RepositoryName }}/publish
+
     - name: Define Variables
       run: |
         export REPO_NAME="$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")"
@@ -31,9 +34,6 @@ jobs:
         echo "::set-env name=GitHubActorLowercase::$GITHUB_ACTOR_LOWERCASE"
         export PROJECT_NAME = $(basename $(find ./${{ env.RepositoryName }}/*.csproj) .csproj )
         echo "::set-env name=ProjectName::$PROJECT_NAME"
-      
-    - name: Build with dotnet
-      run: dotnet publish --configuration Release -o ./${{ env.RepositoryName }}/publish
 
     - name: Define Application Version
       run: echo "::set-env name=AppVersion::$(monodis --assembly ./${{ env.RepositoryName }}/publish/${{ env.ProjectName }}.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)"
