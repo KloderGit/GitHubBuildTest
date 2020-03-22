@@ -46,10 +46,7 @@ jobs:
         echo ${{ env.GitHubActorLowercase }}
        
     - name: Docker Image
-      run: docker image build\
-          -t ${{ env.RepositoryNameLowcase }} docker.pkg.github.com/${{ env.GitHubActorLowercase }}/${{ env.RepositoryNameLowcase }}/${{ env.RepositoryNameLowcase }}:dev\
-          -t ${{ env.RepositoryNameLowcase }} docker.pkg.github.com/${{ env.GitHubActorLowercase }}/${{ env.RepositoryNameLowcase }}/${{ env.RepositoryNameLowcase }}:${{ env.AppVersion }} \
-          ./${{ env.RepositoryName }}
+      run: docker image build -t ${{ env.RepositoryNameLowcase }} docker.pkg.github.com/${{ env.GitHubActorLowercase }}/${{ env.RepositoryNameLowcase }}/${{ env.RepositoryNameLowcase }}:dev -t ${{ env.RepositoryNameLowcase }} docker.pkg.github.com/${{ env.GitHubActorLowercase }}/${{ env.RepositoryNameLowcase }}/${{ env.RepositoryNameLowcase }}:${{ env.AppVersion }} ./${{ env.RepositoryName }}
       
     - name: Docker Login
       run: docker login -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
