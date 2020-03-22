@@ -43,5 +43,6 @@ jobs:
         stat ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll
         echo '---------------ext---------------'
         echo ${{ env.AppVersion }}
+        echo ${{ env.GITHUB_ACTOR }}
         echo ${{ env.RepositoryName }}
 
