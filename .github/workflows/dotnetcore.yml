@@ -25,14 +25,20 @@ jobs:
     - name: Build with dotnet
       run: dotnet publish --configuration Release -o ./${{ env.RepositoryName }}/publish
 
-    - name: Define Variables
+    - name: Define Repository Name
       run: |
         export REPO_NAME="$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")"
         echo "::set-env name=RepositoryName::$REPO_NAME"
         echo "::set-env name=RepositoryNameLowcase::$(echo $REPO_NAME | tr '[:upper:]' '[:lower:]')"
+        
+    - name: Define Owner Name
+      run: |        
         export GITHUB_ACTOR_LOWERCASE="$(echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]')"
         echo "::set-env name=GitHubActorLowercase::$GITHUB_ACTOR_LOWERCASE"
-        export PROJECT_NAME = $(basename $(find ./$REPO_NAME/*.csproj) .csproj )
+        
+    - name: Define Project Name
+      run: |        
+        export PROJECT_NAME = $(basename $(find ./${{ env.RepositoryName }}/*.csproj) .csproj )
         echo "::set-env name=ProjectName::$PROJECT_NAME"
 
     - name: Define Application Version
