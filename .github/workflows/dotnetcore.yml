@@ -22,7 +22,6 @@ jobs:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
        
     - name: Build with dotnet
-#      run: dotnet publish --configuration Release -o ./GitHubBuildTest/publish/
       run: dotnet publish --configuration Release   
 
 
@@ -44,9 +43,4 @@ jobs:
         stat ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll
         echo '---------------ext---------------'
         echo ${{ env.AppVersion }}
-        echo ${{ env.MY_VAR }}
-        echo $APP_VERSION
-        echo ${APP_VERSION}
-        echo ${MY_VERSION}
-        monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2
 
