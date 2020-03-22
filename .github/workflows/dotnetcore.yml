@@ -23,8 +23,8 @@ jobs:
 
     - name: Define Version
       run: |
-        monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2 > $APP_VERSION
-        echo "::set-env name=AppVersion::${APP_VERSION}"
+        A_VERSION = $(monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)
+        echo "::set-env name=AppVersion::${A_VERSION}"
 #        export APP_VERSION=monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2
         
         
