@@ -24,8 +24,9 @@ jobs:
         
     - name: Define RepositoryName
       run: |
+        export REPO_NAME = $(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")
         echo "::set-env name=RepositoryName::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")"
-        echo "::set-env name=RepositoryNameLowcase::$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]')"
+        echo "::set-env name=RepositoryNameLowcase::$REPO_NAME"
       
     - name: Build with dotnet
       run: dotnet publish --configuration Release -o ./${{ env.RepositoryName }}/publish
