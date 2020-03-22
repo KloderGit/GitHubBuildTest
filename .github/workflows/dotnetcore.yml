@@ -28,6 +28,7 @@ jobs:
     - name: Define Version
       run: |
         export APP_VERSION="$(monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)"
+        echo ::set-env name=REPOSITORY_NAME::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")
         echo "::set-env name=AppVersion::${APP_VERSION}"
 
     - name: Printenv
@@ -43,4 +44,5 @@ jobs:
         stat ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll
         echo '---------------ext---------------'
         echo ${{ env.AppVersion }}
+        echo echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//"
 
