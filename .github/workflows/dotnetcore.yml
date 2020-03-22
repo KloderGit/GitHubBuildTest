@@ -20,6 +20,7 @@ jobs:
         source-url: https://nuget.pkg.github.com/KloderGit/index.json
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        APP_VERSION22: $(monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)
        
     - name: Build with dotnet
       run: dotnet publish --configuration Release   
