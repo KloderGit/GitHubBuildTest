@@ -20,15 +20,15 @@ jobs:
         source-url: https://nuget.pkg.github.com/KloderGit/index.json
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-       
+
+    - name: Define RepositoryName
+      run: echo "::set-env name=RepositoryName::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")"
+
     - name: Build with dotnet
       run: dotnet publish --configuration Release   
 
-
     - name: Define Version
-      run: |
-        echo "::set-env name=RepositoryName::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")"
-        echo "::set-env name=AppVersion::$(monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)"
+      run: echo "::set-env name=AppVersion::$(monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)"
 
     - name: Printenv
       run: printenv
@@ -43,6 +43,6 @@ jobs:
         stat ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll
         echo '---------------ext---------------'
         echo ${{ env.AppVersion }}
-        echo ${{ env.GITHUB_ACTOR }}
+        echo "$GITHUB_ACTOR"
         echo ${{ env.RepositoryName }}
 
