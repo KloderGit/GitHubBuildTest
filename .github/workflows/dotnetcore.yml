@@ -21,20 +21,18 @@ jobs:
         source-url: https://nuget.pkg.github.com/KloderGit/index.json
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        
-    - name: Define RepositoryName
+             
+    - name: Build with dotnet
+      run: dotnet publish --configuration Release -o ./${{ env.RepositoryName }}/publish
+
+    - name: Define Variables
       run: |
+        echo "::set-env name=AppVersion::$(monodis --assembly ./${{ env.RepositoryName }}/publish/${{ env.RepositoryName }}.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)"
         export REPO_NAME="$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")"
         echo "::set-env name=RepositoryName::$REPO_NAME"
         echo "::set-env name=RepositoryNameLowcase::$(echo $REPO_NAME | tr '[:upper:]' '[:lower:]')"
         export GITHUB_ACTOR_LOWERCASE="$(echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]')"
         echo "::set-env name=GitHubActorLowercase::$GITHUB_ACTOR_LOWERCASE"
-      
-    - name: Build with dotnet
-      run: dotnet publish --configuration Release -o ./${{ env.RepositoryName }}/publish
-
-    - name: Define Application Version
-      run: echo "::set-env name=AppVersion::$(monodis --assembly ./${{ env.RepositoryName }}/publish/${{ env.RepositoryName }}.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)"
 
     - name: Ls
       run: |
@@ -46,12 +44,12 @@ jobs:
         echo ${{ env.GitHubActorLowercase }}
        
     - name: Docker Image
-      run: docker image build -t $(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]'):${{ env.AppVersion }} ./${{ env.RepositoryName }}
+      run: docker image build -t ${{ env.RepositoryNameLowcase }}:${{ env.AppVersion }} ./${{ env.RepositoryName }}
       
     - name: Docker Login
       run: docker login -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
       
     - name: Publish to Registry
       run: |
-        docker tag $(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]'):${{ env.AppVersion }} docker.pkg.github.com/$(echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]')/$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]')/$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]'):${{ env.AppVersion }}
-        docker push docker.pkg.github.com/$(echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]')/$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]')/$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]'):${{ env.AppVersion }}
+        docker tag ${{ env.RepositoryNameLowcase }}:${{ env.AppVersion }} docker.pkg.github.com/${{ env.GitHubActorLowercase }}/${{ env.RepositoryNameLowcase }}/${{ env.RepositoryNameLowcase }}:${{ env.AppVersion }}
+        docker push docker.pkg.github.com/${{ env.GitHubActorLowercase }}/${{ env.RepositoryNameLowcase }}/${{ env.RepositoryNameLowcase }}:${{ env.AppVersion }}
