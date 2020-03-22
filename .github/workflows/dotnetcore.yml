@@ -20,6 +20,12 @@ jobs:
         source-url: https://nuget.pkg.github.com/KloderGit/index.json
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+    - name: Define variables
+      run: echo "Tags are > ${TAG1}"
+      env:
+        TAG1: "devmtl/rclone:2.29.1-2019-08-24-32c812f7"
+        
     - name: Build with dotnet
 #      run: dotnet publish --configuration Release -o ./GitHubBuildTest/publish/
       run: dotnet publish --configuration Release     
@@ -33,10 +39,8 @@ jobs:
         stat ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll
         echo '---------------ext---------------'
         monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2
-        env:
-          Test1: "devmtl/rclone:2.29.1-2019-08-24-32c812f7"
-        echo $Test1
-       
+        echo ${TAG1}
+        
     - name: Docker Image
       run: docker image build -t githubbuildtest:1 GitHubBuildTest/
       
