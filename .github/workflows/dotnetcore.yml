@@ -24,7 +24,10 @@ jobs:
     - name: Define variables
       run: echo "Tags are > ${TAG1}"
       env:
-        TAG1: "devmtl/rclone:2.29.1-2019-08-24-32c812f7"
+        TAG1: "TEst Value"
+        
+    - name: Define variables2
+      run: echo "::set-env name=NEW_APK_NAME::APK_NAME"
         
     - name: Build with dotnet
 #      run: dotnet publish --configuration Release -o ./GitHubBuildTest/publish/
@@ -39,7 +42,8 @@ jobs:
         stat ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll
         echo '---------------ext---------------'
         monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2
-        echo ${TAG1}
+        echo ${{ env.NEW_APK_NAME }}
+        echo ${{TAG1}}
         
     - name: Docker Image
       run: docker image build -t githubbuildtest:1 GitHubBuildTest/
