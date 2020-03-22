@@ -33,7 +33,7 @@ jobs:
         echo "::set-env name=AppVersion::${APP_VERSION}"
 
     - name: Printenv
-      run: printenv | grep AppVersion
+      run: printenv
       
     - name: Ls
       run: |
