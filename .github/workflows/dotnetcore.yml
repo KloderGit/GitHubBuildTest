@@ -31,9 +31,11 @@ jobs:
         echo "::set-env name=RepositoryName::$REPO_NAME"
         echo "::set-env name=RepositoryNameLowcase::$(echo $REPO_NAME | tr '[:upper:]' '[:lower:]')"
         export GITHUB_ACTOR_LOWERCASE="$(echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]')"
-        echo "::set-env name=GitHubActorLowercase::$GITHUB_ACTOR_LOWERCASE"
-        echo "::set-env name=AppVersion::$(monodis --assembly ./$REPO_NAME/publish/$REPO_NAME.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)"
+        echo "::set-env name=GitHubActorLowercase::$GITHUB_ACTOR_LOWERCASE"        
 
+    - name: Define App Version
+      run: echo "::set-env name=AppVersion::$(monodis --assembly ./${{ env.RepositoryName }}/publish/${{ env.RepositoryName }}.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)"
+        
     - name: Ls
       run: |
         echo '------------------------------'
