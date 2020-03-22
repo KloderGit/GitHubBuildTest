@@ -4,7 +4,7 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-COPY ./bin/Release/netcoreapp3.1/publish/ .
+COPY ./publish/ .
 
 RUN ls -lh
 RUN echo '----------------------------------------'
