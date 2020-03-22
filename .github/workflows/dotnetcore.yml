@@ -43,7 +43,7 @@ jobs:
         echo '---------------ext---------------'
         monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2
         echo ${{ env.NEW_APK_NAME }}
-        echo ${{TAG1}}
+        echo ${TAG1}
         
     - name: Docker Image
       run: docker image build -t githubbuildtest:1 GitHubBuildTest/
