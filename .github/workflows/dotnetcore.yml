@@ -32,7 +32,7 @@ jobs:
         echo "::set-env name=RepositoryNameLowcase::$(echo $REPO_NAME | tr '[:upper:]' '[:lower:]')"
         export GITHUB_ACTOR_LOWERCASE="$(echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]')"
         echo "::set-env name=GitHubActorLowercase::$GITHUB_ACTOR_LOWERCASE"
-        export PROJECT_NAME = $(basename $(find ./${{ env.RepositoryName }}/*.csproj) .csproj )
+        export PROJECT_NAME = $(basename $(find ./$REPO_NAME/*.csproj) .csproj )
         echo "::set-env name=ProjectName::$PROJECT_NAME"
 
     - name: Define Application Version
