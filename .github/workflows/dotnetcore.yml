@@ -46,12 +46,12 @@ jobs:
         echo ${{ env.GitHubActorLowercase }}
        
     - name: Docker Image
-      run: docker image build -t $(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]'):${{ env.AppVersion }} ./${{ env.RepositoryName }}
+      run: docker image build -t ${{ env.RepositoryNameLowcase }}:${{ env.AppVersion }} ./${{ env.RepositoryName }}
       
     - name: Docker Login
       run: docker login -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
       
     - name: Publish to Registry
       run: |
-        docker tag $(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]'):${{ env.AppVersion }} docker.pkg.github.com/$(echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]')/$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]')/$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]'):${{ env.AppVersion }}
-        docker push docker.pkg.github.com/$(echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]')/$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]')/$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]'):${{ env.AppVersion }}
+        docker tag ${{ env.RepositoryNameLowcase }}:${{ env.AppVersion }} docker.pkg.github.com/${{ env.GitHubActorLowercase }}/${{ env.RepositoryNameLowcase }}/${{ env.RepositoryNameLowcase }}:${{ env.AppVersion }}
+        docker push docker.pkg.github.com/${{ env.GitHubActorLowercase }}/${{ env.RepositoryNameLowcase }}/${{ env.RepositoryNameLowcase }}:${{ env.AppVersion }}
