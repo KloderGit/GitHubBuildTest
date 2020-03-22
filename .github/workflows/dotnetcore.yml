@@ -13,6 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
@@ -20,24 +21,30 @@ jobs:
         source-url: https://nuget.pkg.github.com/KloderGit/index.json
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
+        
     - name: Define RepositoryName
       run: echo "::set-env name=RepositoryName::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")"
-
-    - name: Build with dotnet
-      run: dotnet publish --configuration Release   
-
-    - name: Define Version
-      run: echo "::set-env name=AppVersion::$(monodis --assembly ./${{ env.RepositoryName }}/bin/Release/netcoreapp3.1/publish/${{ env.RepositoryName }}.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)"
-
-    - name: Printenv
-      run: printenv
       
+    - name: Build with dotnet
+      run: dotnet publish --configuration Release -o ./${{ env.RepositoryName }}/publish
+
+    - name: Define Application Version
+      run: echo "::set-env name=AppVersion::$(monodis --assembly ./${{ env.RepositoryName }}/publish/${{ env.RepositoryName }}.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)"
+
     - name: Ls
       run: |
-        ls
         echo '------------------------------'
+        echo ${{ env.RepositoryName }}
         echo ${{ env.AppVersion }}
         echo "$GITHUB_ACTOR"
-        echo ${{ env.RepositoryName }}
-        echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]'
+       
+    - name: Docker Image
+      run: docker image build -t $(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]'):${{ env.AppVersion }} ./${{ env.RepositoryName }}
+      
+    - name: Docker Login
+      run: docker login -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
+      
+    - name: Publish to Registry
+      run: |
+        docker tag ${{ env.RepositoryName }}:${{ env.AppVersion }} docker.pkg.github.com/$(echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]')/$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]')/${{ env.RepositoryName }}:${{ env.AppVersion }}
+        docker push docker.pkg.github.com/$(echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]')/$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]')/$(echo ${{ env.RepositoryName }} | tr '[:upper:]' '[:lower:]'):${{ env.AppVersion }}
