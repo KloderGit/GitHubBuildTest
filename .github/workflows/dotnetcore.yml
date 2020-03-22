@@ -38,7 +38,7 @@ jobs:
         
     - name: Define Project Name
       run: |        
-        export PROJECT_NAME = $(basename $(find ./${{ env.RepositoryName }}/*.csproj) .csproj )
+        export PROJECT_NAME = $(basename $(echo $(find ./${{ env.RepositoryName }}/*.csproj)) .csproj )
         echo "::set-env name=ProjectName::$PROJECT_NAME"
 
     - name: Define Application Version
