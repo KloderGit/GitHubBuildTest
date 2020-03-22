@@ -25,10 +25,10 @@ jobs:
     - name: Define RepositoryName
       run: |
         export REPO_NAME="$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")"
-        export GITHUB_ACTOR_LOWERCASE="$(echo "$GITHUB_ACTOR" | awk -F / '{print $2}' | sed -e "s/:refs//")"
         echo "::set-env name=RepositoryName::$REPO_NAME"
         echo "::set-env name=RepositoryNameLowcase::$(echo $REPO_NAME | tr '[:upper:]' '[:lower:]')"
-        echo "::set-env name=GitHubActorLowercase::$(echo $GITHUB_ACTOR_LOWERCASE | tr '[:upper:]' '[:lower:]')"
+        export GITHUB_ACTOR_LOWERCASE="$(echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]')"
+        echo "::set-env name=GitHubActorLowercase::$GITHUB_ACTOR_LOWERCASE"
       
     - name: Build with dotnet
       run: dotnet publish --configuration Release -o ./${{ env.RepositoryName }}/publish
