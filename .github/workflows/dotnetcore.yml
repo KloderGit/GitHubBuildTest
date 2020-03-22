@@ -45,5 +45,5 @@ jobs:
         echo ${{ env.AppVersion }}
         echo "$GITHUB_ACTOR"
         echo ${{ env.RepositoryName }}
-        $($GITHUB_ACTOR | tr "[:lower:]")
+        echo $($GITHUB_ACTOR | tr "[:lower:]" "[:upper:]")
 
