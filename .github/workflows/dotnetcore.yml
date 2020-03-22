@@ -20,6 +20,11 @@ jobs:
         source-url: https://nuget.pkg.github.com/KloderGit/index.json
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+       
+    - name: Build with dotnet
+#      run: dotnet publish --configuration Release -o ./GitHubBuildTest/publish/
+      run: dotnet publish --configuration Release   
+
 
     - name: Define Version
       run: |
@@ -39,10 +44,8 @@ jobs:
         echo "MY_VAR=${MY_VAR}"
         echo "MY_VERSION=${MY_VERSION}"
         printenv
-        
-    - name: Build with dotnet
-#      run: dotnet publish --configuration Release -o ./GitHubBuildTest/publish/
-      run: dotnet publish --configuration Release     
+
+      
     - name: Ls
       run: |
         ls
@@ -57,26 +60,5 @@ jobs:
         echo $APP_VERSION
         echo ${APP_VERSION}
         echo ${MY_VERSION}
-#        monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2
-        
-    - name: Docker Image
-      run: docker image build -t githubbuildtest:1 GitHubBuildTest/
-      
-    - name: Docker Login
-      run: docker login -u KloderGit -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
-      
-    - name: Publish to Registry
-      run: |      
-        docker tag githubbuildtest:1 docker.pkg.github.com/klodergit/githubbuildtest/githubbuildtest:1
-        docker push docker.pkg.github.com/klodergit/githubbuildtest/githubbuildtest:1
-        
-    - name: Send default message to Telegram
-      uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}        
+        monodis --assembly ./GitHubBuildTest/bin/Release/netcoreapp3.1/publish/GitHubBuildTest.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2
 
-    - name: Telegram
-      run: |
-        curl -s -X POST https://api.telegram.org/bot1091654180:AAGsfJljG3blhtDhISNxL46h0tDASueEfoo/sendMessage -d chat_id=-1001434763292 -d text="Hello World"
-        curl -s -X POST https://api.telegram.org/bot1091654180:AAGsfJljG3blhtDhISNxL46h0tDASueEfoo/sendMessage?chat_id=-1001434763292&text=second
