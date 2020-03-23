@@ -37,7 +37,7 @@ jobs:
       run: echo "::set-env name=AppVersion::$(monodis --assembly ./${{ env.RepositoryName }}/publish/${{ env.RepositoryName }}.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)"
       
     - name: APP name
-      run: echo "::set-env name=AppVersion::$(basename $(find ./${{ env.RepositoryName }}/*.csproj) .csproj)"         
+      run: echo "::set-env name=ProjectFileName::$(basename $(find ./${{ env.RepositoryName }}/*.csproj) .csproj)"         
 
     - name: Ls
       run: |
@@ -48,6 +48,7 @@ jobs:
         echo "$GITHUB_ACTOR"
         echo ${{ env.GitHubActorLowercase }}
         basename $(find ./${{ env.RepositoryName }}/*.csproj) .csproj
+        echo ${{ env.ProjectFileName }}
        
     - name: Docker Image
       run: docker image build -t ${{ env.RepositoryNameLowcase }} ./${{ env.RepositoryName }}
