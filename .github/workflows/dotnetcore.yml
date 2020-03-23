@@ -33,11 +33,11 @@ jobs:
     - name: Build with dotnet
       run: dotnet publish --configuration Release -o ./${{ env.RepositoryName }}/publish  
 
-    - name: Define Application Version
-      run: echo "::set-env name=AppVersion::$(monodis --assembly ./${{ env.RepositoryName }}/publish/${{ env.RepositoryName }}.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)"
-      
     - name: APP name
-      run: echo "::set-env name=ProjectFileName::$(basename $(find ./${{ env.RepositoryName }}/*.csproj) .csproj)"         
+      run: echo "::set-env name=ProjectFileName::$(basename $(find ./${{ env.RepositoryName }}/*.csproj) .csproj)"  
+
+    - name: Define Application Version
+      run: echo "::set-env name=AppVersion::$(monodis --assembly ./${{ env.RepositoryName }}/publish/${{ env.ProjectFileName }}.dll | grep Version | sed 's/\s\+/,/g' | cut -d , -f2)"       
 
     - name: Ls
       run: |
