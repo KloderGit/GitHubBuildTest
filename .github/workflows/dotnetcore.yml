@@ -52,7 +52,7 @@ jobs:
         echo ${{ env.AppVersion }}
         echo "$GITHUB_ACTOR"
         echo ${{ env.GitHubActorLowercase }}
-        echo basename $(echo $(find ./${{ env.RepositoryName }}/*.csproj)) .csproj
+        echo basename $(find ./${{ env.RepositoryName }}/*.csproj) .csproj
 
        
     - name: Docker Image
