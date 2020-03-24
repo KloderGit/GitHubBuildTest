@@ -14,6 +14,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Define Variables
+      run: |
+        export REPO_NAME="$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")"
+        echo "::set-env name=RepositoryName::$REPO_NAME"
+        
     - name: Setup Nuget.exe
       uses: nuget/setup-nuget@v1
 
@@ -21,12 +26,7 @@ jobs:
       run: nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/KloderGit/index.json" -UserName KloderGit -Password ${{ secrets.GITHUB_TOKEN }}
 
     - name: NGPag
-      run: dotnet add package Configuration.Database -v 1.1.0 -s GitHub
-        
-    - name: Define Variables
-      run: |
-        export REPO_NAME="$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")"
-        echo "::set-env name=RepositoryName::$REPO_NAME"
-      
+      run: dotnet add ./${{ env.RepositoryName }} package Configuration.Database -v 1.1.0 -s GitHub
+             
     - name: Build with dotnet
       run: dotnet publish --configuration Release -o ./${{ env.RepositoryName }}/publish  
