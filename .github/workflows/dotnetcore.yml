@@ -26,7 +26,7 @@ jobs:
       run: nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/KloderGit/index.json" -UserName KloderGit -Password ${{ secrets.GITHUB_TOKEN }}
 
     - name: NGPag
-      run: dotnet add ./${{ env.RepositoryName }} package Configuration.Database -v 1.1.0 -s https://nuget.pkg.github.com/KloderGit/index.json
+      run: dotnet add ./${{ env.RepositoryName }} package Configuration.Database -v 1.1.0 -s https://nuget.pkg.github.com/KloderGit/index.json -u KloderGit -p ${{ secrets.GITHUB_TOKEN }}
              
     - name: Build with dotnet
       run: dotnet publish --configuration Release -o ./${{ env.RepositoryName }}/publish  
