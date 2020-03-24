@@ -17,16 +17,11 @@ jobs:
     - name: Setup Nuget.exe
       uses: nuget/setup-nuget@v1
 
-    - name: Restore 1
-      run: nuget restore
-
     - name: Add Source
       run: nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/KloderGit/index.json" -UserName KloderGit -Password ${{ secrets.GITHUB_TOKEN }}
-     
-    - name: Restore 1
-      run: nuget restore
- 
 
+    - name: NGPag
+      run: dotnet add package Configuration.Database -v 1.1.0 -s GitHub
         
     - name: Define Variables
       run: |
