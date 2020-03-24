@@ -13,12 +13,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-              
-    - name: Setup NuGet.exe for use with actions
-      uses: NuGet/setup-nuget@v1.0.2
-      with:
-        nuget-api-key: ${{secrets.GITHUB_TOKEN}}
-        nuget-api-key-source: https://nuget.pkg.github.com/KloderGit/index.json
+
+    - name: Setup Nuget.exe
+      uses: nuget/setup-nuget@v1
+      
+    - name: Add Source
+      run: nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/KloderGit/index.json" -UserName KloderGit -Password ${{ secrets.GITHUB_TOKEN }}
+     
+    - name: Restore 1
+      run: nuget restore
+ 
 
         
     - name: Define Variables
