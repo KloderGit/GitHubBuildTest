@@ -22,6 +22,10 @@ jobs:
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         
+    - name: Setup Nuget.exe
+      uses: warrenbuckley/Setup-Nuget@v1        
+        
+        
     - name: Define Variables
       run: |
         export REPO_NAME="$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")"
