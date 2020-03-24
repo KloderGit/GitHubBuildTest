@@ -22,11 +22,11 @@ jobs:
     - name: Setup Nuget.exe
       uses: nuget/setup-nuget@v1
 
-#    - name: Add Source
-#      run: nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/KloderGit/index.json" -UserName KloderGit -Password ${{ secrets.GITHUB_TOKEN }}
+    - name: Add Source
+      run: nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/KloderGit/index.json" -UserName KloderGit -Password ${{ secrets.GITHUB_TOKEN }}
 
     - name: NGPag
-      run: dotnet add ./${{ env.RepositoryName }} package Configuration.Database -v 1.1.0 -s "https://nuget.pkg.github.com/KloderGit/index.json" -UserName KloderGit -Password ${{ secrets.GITHUB_TOKEN }}
+      run: dotnet add ./${{ env.RepositoryName }} package Configuration.Database -v 1.1.0 -s https://nuget.pkg.github.com/KloderGit/index.json
              
     - name: Build with dotnet
       run: dotnet publish --configuration Release -o ./${{ env.RepositoryName }}/publish  
